@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA AI - Future is Here</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #131314;
+            --sidebar-color: #1e1f20;
+            --text-color: #e3e3e3;
+            --input-bg: #1e1f20;
+            --hover-color: #2e2f30;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar - Yan Menyu */
+        #sidebar {
+            width: 260px;
+            background-color: var(--sidebar-color);
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            transition: 0.3s;
+        }
+
+        .new-chat {
+            border: 1px solid #444;
+            padding: 10px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .new-chat:hover { background-color: var(--hover-color); }
+
+        .history { flex-grow: 1; overflow-y: auto; font-size: 0.9em; }
+        
+        .history-item {
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+
+        .history-item:hover { background-color: var(--hover-color); }
+
+        .sidebar-footer {
+            border-top: 1px solid #333;
+            padding-top: 10px;
+            font-size: 0.9em;
+            cursor: pointer;
+        }
+
+        /* Əsas Söhbət Sahəsi */
+        #main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 800px;
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .welcome-screen {
+            text-align: center;
+            margin-top: 15vh;
+        }
+
+        .welcome-screen h1 { font-size: 2.5em; background: linear-gradient(to right, #4285f4, #d96570); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* Mesaj Qutusu */
+        .input-area {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--input-bg);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+        }
+
+        .input-area input {
+            flex-grow: 1;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.1em;
+            padding: 10px;
+            outline: none;
+        }
+
+        .icon-btn {
+            color: #aaa;
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        .icon-btn:hover { color: white; }
+
+        /* Stil üçün skroll-bar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+    </style>
+</head>
+<body>
+
+    <div id="sidebar">
+        <div class="new-chat"><i class="fas fa-plus"></i> Yeni söhbət</div>
+        <div class="history">
+            <div class="history-item"><i class="far fa-message"></i> Bakı moda layihəsi</div>
+            <div class="history-item"><i class="far fa-message"></i> AI Gələcəyi haqqında</div>
+        </div>
+        <div class="sidebar-footer">
+            <div class="history-item"><i class="fas fa-gear"></i> Ayarlar</div>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <div class="chat-container" id="chatDisplay">
+            <div class="welcome-screen">
+                <h1>Salam!</h1>
+                <p>Mən AURA-yam. Bu gün sizə necə kömək edə bilərəm?</p>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <label for="file-upload" class="icon-btn">
+                <i class="fas fa-plus-circle"></i>
+            </label>
+            <input type="file" id="file-upload" style="display:none">
+            
+            <input type="text" id="userInput" placeholder="Buraya yazın...">
+            
+            <i class="fas fa-microphone icon-btn"></i>
+            <i class="fas fa-paper-plane icon-btn" onclick="sendMessage()"></i>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const display = document.getElementById('chatDisplay');
+
+            if (input.value.trim() !== "") {
+                // İlkin ekranı təmizlə
+                if (display.querySelector('.welcome-screen')) {
+                    display.innerHTML = '';
+                }
+
+                // İstifadəçi mesajı
+                const userMsg = document.createElement('div');
+                userMsg.style.textAlign = 'right';
+                userMsg.innerHTML = `<p style="background:#2e2f30; display:inline-block; padding:10px 15px; border-radius:15px;">${input.value}</p>`;
+                display.appendChild(userMsg);
+
+                // Aura-nın cavabı (Simulyasiya)
+                setTimeout(() => {
+                    const auraMsg = document.createElement('div');
+                    auraMsg.innerHTML = `<p><i class="fas fa-star" style="color:#4285f4"></i> <b>AURA:</b> Hazırda bu funksiya üzərində işləyirəm, amma vizyonumuz böyükdür!</p>`;
+                    display.appendChild(auraMsg);
+                    display.scrollTop = display.scrollHeight;
+                }, 1000);
+
+                input.value = "";
+            }
+        }
+
+        // Enter düyməsi ilə göndərmək
+        document.getElementById('userInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
