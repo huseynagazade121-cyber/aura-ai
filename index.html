@@ -3,30 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURA AI - Ultra Fixed</title>
+    <title>AURA AI - Final Version</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         :root { --bg: #000; --accent: #00d2ff; --text: #fff; }
-        body { margin: 0; font-family: sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; flex-direction: column; align-items: center; }
-        #chatDisplay { width: 100%; max-width: 700px; flex-grow: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .msg { padding: 12px 18px; border-radius: 20px; max-width: 80%; line-height: 1.5; font-size: 16px; }
-        .user-msg { align-self: flex-end; background: #333; }
-        .aura-msg { align-self: flex-start; background: #002b36; color: var(--accent); border: 1px solid #004d4d; }
-        .input-area { width: 90%; max-width: 700px; margin-bottom: 20px; background: #111; border-radius: 30px; display: flex; padding: 5px 15px; border: 1px solid #222; }
-        input { flex-grow: 1; background: none; border: none; color: white; padding: 12px; outline: none; }
-        .send-btn { color: var(--accent); cursor: pointer; font-size: 1.5em; padding: 10px; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; flex-direction: column; align-items: center; }
+        #chatDisplay { width: 100%; max-width: 800px; flex-grow: 1; overflow-y: auto; padding: 30px 20px; display: flex; flex-direction: column; gap: 20px; }
+        .msg { padding: 15px 20px; border-radius: 22px; max-width: 85%; line-height: 1.6; font-size: 16px; animation: fadeIn 0.3s ease-in-out; }
+        .user-msg { align-self: flex-end; background: #222; border: 1px solid #333; }
+        .aura-msg { align-self: flex-start; background: #001f25; color: var(--accent); border: 1px solid #004d4d; position: relative; }
+        .input-area { width: 95%; max-width: 800px; margin-bottom: 25px; background: #111; border-radius: 40px; display: flex; padding: 8px 20px; border: 1px solid #222; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        input { flex-grow: 1; background: none; border: none; color: white; padding: 12px; outline: none; font-size: 16px; }
+        .send-btn { color: var(--accent); cursor: pointer; font-size: 1.6em; padding: 10px; transition: 0.2s; }
+        .send-btn:hover { transform: scale(1.1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
     </style>
 </head>
 <body>
-    <div id="chatDisplay"><h2 style="text-align:center; opacity:0.3; margin-top:30vh">AURA AI</h2></div>
+    <div id="chatDisplay">
+        <div style="text-align:center; margin-top:20vh">
+            <h1 style="color:var(--accent); letter-spacing:8px; font-weight:100; font-size:3em">AURA</h1>
+            <p style="opacity:0.4">Sistem Hüseyn Agazade tərəfindən aktivləşdirildi.</p>
+        </div>
+    </div>
     <div class="input-area">
-        <input type="text" id="userInput" placeholder="Mesaj yazın..." autocomplete="off">
+        <input type="text" id="userInput" placeholder="Aura ilə söhbətə başlayın..." autocomplete="off">
         <i class="fas fa-paper-plane send-btn" onclick="askAura()"></i>
     </div>
 
     <script>
-        // Sənin OpenRouter açarın (Səhv ehtimalını sıfırladım)
-        const K = "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"; 
+        // Sənin ən son və təzə OpenRouter açarın
+        const AURA_KEY = "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";
 
         async function askAura() {
             const input = document.getElementById('userInput');
@@ -34,33 +43,48 @@
             const text = input.value.trim();
             if (!text) return;
 
+            if (display.querySelector('h1')) display.innerHTML = '';
+
             display.innerHTML += `<div class="msg user-msg">${text}</div>`;
             input.value = "";
+            
             const auraDiv = document.createElement('div');
             auraDiv.className = 'msg aura-msg';
-            auraDiv.innerHTML = "Düşünürəm...";
+            auraDiv.innerHTML = "<em>Düşünürəm...</em>";
             display.appendChild(auraDiv);
             display.scrollTop = display.scrollHeight;
 
             try {
-                const r = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                     method: "POST",
                     headers: {
-                        "Authorization": `Bearer ${K}`,
-                        "Content-Type": "application/json"
+                        "Authorization": `Bearer ${AURA_KEY}`,
+                        "Content-Type": "application/json",
+                        "HTTP-Referer": window.location.origin,
+                        "X-Title": "Aura AI"
                     },
                     body: JSON.stringify({
                         "model": "google/gemma-2-9b-it:free",
-                        "messages": [{"role": "user", "content": "Sən Hüseyn tərəfindən yaradılmış AURA-san. Azərbaycan dilində qısa cavab ver: " + text}]
+                        "messages": [
+                            {"role": "system", "content": "Sən Hüseyn Agazade tərəfindən yaradılmış AURA AI-san. Çox ağıllısan və Azərbaycan dilində səmimi, dürüst cavablar verirsən."},
+                            {"role": "user", "content": text}
+                        ]
                     })
                 });
-                const d = await r.json();
-                auraDiv.innerHTML = d.choices[0].message.content;
+                
+                const data = await response.json();
+                
+                if (data.choices && data.choices[0]) {
+                    auraDiv.innerHTML = data.choices[0].message.content;
+                } else {
+                    throw new Error();
+                }
             } catch (e) {
-                auraDiv.innerHTML = "XƏTA: Açar bloklanıb və ya internet yoxdur.";
+                auraDiv.innerHTML = "Bağlantıda kiçik bir problem oldu. Zəhmət olmasa yenidən yoxla.";
             }
             display.scrollTop = display.scrollHeight;
         }
+
         document.getElementById('userInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') askAura(); });
     </script>
 </body>
