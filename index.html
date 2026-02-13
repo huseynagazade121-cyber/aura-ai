@@ -9,14 +9,14 @@
             --bg-color: #0d1117;
             --sidebar-color: #161b22;
             --text-color: #c9d1d9;
-            --accent-color: #7f5af0; /* AURA-nın bənövşəyi aurası */
+            --accent-color: #7f5af0;
             --user-bubble: #2f334d;
             --aura-bubble: #1f2335;
             --border-color: #30363d;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -24,7 +24,6 @@
             height: 100vh;
         }
 
-        /* Sidebar */
         .sidebar {
             width: 260px;
             background-color: var(--sidebar-color);
@@ -34,55 +33,23 @@
             border-right: 1px solid var(--border-color);
         }
 
-        .new-chat-btn {
-            background: transparent;
-            color: white;
-            border: 1px dashed var(--accent-color);
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            transition: 0.3s;
-        }
-
-        .new-chat-btn:hover { background: rgba(127, 90, 240, 0.1); }
-
-        .history-list { flex-grow: 1; overflow-y: auto; }
-
-        .history-item {
-            padding: 10px;
-            font-size: 13px;
-            border-radius: 5px;
-            cursor: pointer;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 5px;
-            background: rgba(255,255,255,0.03);
-        }
-
-        /* Chat Area */
         .main-content {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            background: radial-gradient(circle at center, #1a1b26 0%, #0d1117 100%);
         }
 
         header {
             padding: 20px;
             text-align: center;
             font-size: 22px;
-            font-weight: bold;
-            letter-spacing: 2px;
             color: var(--accent-color);
-            text-shadow: 0 0 10px rgba(127, 90, 240, 0.5);
             border-bottom: 1px solid var(--border-color);
         }
 
         #chat-window {
             flex-grow: 1;
-            padding: 30px;
+            padding: 20px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -91,138 +58,74 @@
 
         .message {
             max-width: 75%;
-            padding: 14px 18px;
-            border-radius: 18px;
-            line-height: 1.6;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .user-message {
-            align-self: flex-end;
-            background-color: var(--user-bubble);
-            border-bottom-right-radius: 2px;
-        }
-
-        .aura-message {
-            align-self: flex-start;
-            background-color: var(--aura-bubble);
-            border: 1px solid var(--border-color);
-            border-bottom-left-radius: 2px;
-        }
-
-        /* Input Zone */
-        .input-container {
-            padding: 30px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .input-box {
-            width: 100%;
-            max-width: 800px;
-            background: #161b22;
-            border: 1px solid var(--border-color);
+            padding: 12px;
             border-radius: 12px;
-            display: flex;
-            padding: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            line-height: 1.5;
         }
 
-        input {
-            flex-grow: 1;
-            background: transparent;
-            border: none;
-            color: white;
-            padding: 10px;
-            outline: none;
-            font-size: 16px;
-        }
+        .user-message { align-self: flex-end; background: var(--user-bubble); }
+        .aura-message { align-self: flex-start; background: var(--aura-bubble); border: 1px solid var(--border-color); }
 
-        #send-btn {
-            background: var(--accent-color);
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        #send-btn:disabled { background: #444; }
-
+        .input-area { padding: 20px; display: flex; gap: 10px; justify-content: center; }
+        .input-box { width: 80%; display: flex; background: #161b22; border: 1px solid var(--border-color); border-radius: 8px; padding: 5px; }
+        input { flex-grow: 1; background: transparent; border: none; color: white; padding: 10px; outline: none; }
+        button { background: var(--accent-color); border: none; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <button class="new-chat-btn" onclick="location.reload()">+ Yeni Söhbət</button>
-        <div class="history-list" id="history-list"></div>
+        <button onclick="location.reload()" style="background: transparent; border: 1px solid #444; color: white; padding: 10px; cursor: pointer;">+ Yeni Söhbət</button>
+        <div id="history" style="margin-top: 20px; font-size: 14px; opacity: 0.7;">Yazışma tarixçəsi...</div>
     </div>
 
     <div class="main-content">
-        <header>AURA</header>
+        <header>AURA ✨</header>
         <div id="chat-window"></div>
-        <div class="input-container">
+        <div class="input-area">
             <div class="input-box">
-                <input type="text" id="user-input" placeholder="Leyla üçün bir mesaj yaz..." onkeypress="if(event.key==='Enter') sendMessage()">
-                <button id="send-btn" onclick="sendMessage()">Göndər</button>
+                <input type="text" id="user-input" placeholder="Leyla üçün yaz..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()">Göndər</button>
             </div>
         </div>
     </div>
 
     <script>
-        const API_KEY = "AIzaSyD4C_NegdkQ4uQXc5xe72OIseGav_sNJD0";
+        // BURANI DƏYİŞ: Sənin verdiyin API Key
+        const API_KEY = "AIzaSyD4C_NegdkQ4uQXc5xe72OIseGav_sNJD0"; 
         const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
-        const chatWindow = document.getElementById('chat-window');
-        const userInput = document.getElementById('user-input');
-        const historyList = document.getElementById('history-list');
-
-        function addMessage(text, type) {
-            const div = document.createElement('div');
-            div.className = `message ${type}`;
-            div.innerText = text;
-            chatWindow.appendChild(div);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        }
-
         async function sendMessage() {
-            const text = userInput.value.trim();
+            const input = document.getElementById('user-input');
+            const text = input.value.trim();
             if (!text) return;
 
-            addMessage(text, 'user-message');
-            userInput.value = '';
-            
-            // Tarixçəyə əlavə et
-            if(chatWindow.children.length === 1) {
-                const item = document.createElement('div');
-                item.className = 'history-item';
-                item.innerText = text.substring(0, 25) + "...";
-                historyList.prepend(item);
-            }
+            addMsg(text, 'user-message');
+            input.value = '';
 
             try {
-                const response = await fetch(URL, {
+                const res = await fetch(URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: text }] }]
-                    })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: text }] }] })
                 });
-
-                const data = await response.json();
-                const aiReply = data.candidates[0].content.parts[0].text;
-                addMessage(aiReply, 'aura-message');
-            } catch (error) {
-                addMessage("Xəta: AURA hazırda cavab verə bilmir. API limitini və ya bağlantını yoxla.", 'aura-message');
+                const data = await res.json();
+                const reply = data.candidates[0].content.parts[0].text;
+                addMsg(reply, 'aura-message');
+            } catch (e) {
+                addMsg("Bağlantı xətası! API açarın aktiv olmaya bilər.", 'aura-message');
             }
         }
 
-        window.onload = () => {
-            addMessage("Salam Leyla! Mən AURA. Sənə hər mövzuda kömək etməyə hazıram. ✨", 'aura-message');
-        };
+        function addMsg(text, cls) {
+            const div = document.createElement('div');
+            div.className = `message ${cls}`;
+            div.innerText = text;
+            document.getElementById('chat-window').appendChild(div);
+            document.getElementById('chat-window').scrollTop = 100000;
+        }
+
+        window.onload = () => addMsg("Salam Leyla! Mən AURA. Sənə necə kömək edə bilərəm?", 'aura-message');
     </script>
 </body>
 </html>
