@@ -3,171 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURA | Leyla üçün Özəl</title>
+    <title>Özəl Mesaj</title>
     <style>
-        :root {
-            --bg-color: #0d1117;
-            --sidebar-color: #161b22;
-            --text-color: #c9d1d9;
-            --accent-color: #7f5af0;
-            --user-bubble: #2f334d;
-            --aura-bubble: #1f2335;
-            --border-color: #30363d;
-        }
-
         body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            display: flex;
-            height: 100vh;
-        }
-
-        .sidebar {
-            width: 260px;
-            background-color: var(--sidebar-color);
-            display: flex;
-            flex-direction: column;
-            padding: 15px;
-            border-right: 1px solid var(--border-color);
-        }
-
-        .main-content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            padding: 20px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-            color: var(--accent-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        #chat-window {
-            flex-grow: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .message {
-            max-width: 75%;
-            padding: 12px 16px;
-            border-radius: 15px;
-            line-height: 1.5;
-        }
-
-        .user-message {
-            align-self: flex-end;
-            background-color: var(--user-bubble);
-        }
-
-        .aura-message {
-            align-self: flex-start;
-            background-color: var(--aura-bubble);
-            border: 1px solid var(--border-color);
-        }
-
-        .input-container {
-            padding: 20px;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
         }
-
-        .input-box {
-            width: 100%;
-            max-width: 800px;
-            background: #161b22;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            display: flex;
-            padding: 5px;
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-
-        input {
-            flex-grow: 1;
-            background: transparent;
-            border: none;
-            color: white;
-            padding: 10px;
-            outline: none;
-        }
-
         button {
-            background: var(--accent-color);
-            border: none;
-            color: white;
             padding: 10px 20px;
-            border-radius: 8px;
+            font-size: 16px;
             cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #d9534f;
+            font-weight: bold;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <button style="background:transparent; color:white; border:1px solid #444; padding:10px; cursor:pointer;" onclick="location.reload()">+ Yeni Söhbət</button>
-        <div style="margin-top:20px; font-size:12px; color:#888;">Yazışma tarixçəsi...</div>
-    </div>
+<div class="container">
+    <h2>Xoş gəldin!</h2>
+    <button onclick="checkPassword()">Sayta daxil ol</button>
+    <div id="message"></div>
+</div>
 
-    <div class="main-content">
-        <header>AURA ✨</header>
-        <div id="chat-window"></div>
-        <div class="input-container">
-            <div class="input-box">
-                <input type="text" id="user-input" placeholder="Leyla üçün yaz..." onkeypress="if(event.key==='Enter') sendMessage()">
-                <button onclick="sendMessage()">Göndər</button>
-            </div>
-        </div>
-    </div>
+<script>
+    function checkPassword() {
+        // İstifadəçidən şifrəni soruşuruq
+        let password = prompt("Şifrəni girin\nİpucu: Leylanın ən sevdiyi oyun.");
 
-    <script>
-        const API_KEY = "AIzaSyD4C_NegdkQ4uQXc5xe72OIseGav_sNJD0";
-        const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-
-        async function sendMessage() {
-            const input = document.getElementById('user-input');
-            const text = input.value.trim();
-            if (!text) return;
-
-            addMsg(text, 'user-message');
-            input.value = '';
-
-            try {
-                const response = await fetch(URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: text }] }]
-                    })
-                });
-
-                const data = await response.json();
-                const aiReply = data.candidates[0].content.parts[0].text;
-                addMsg(aiReply, 'aura-message');
-            } catch (error) {
-                addMsg("Bağlantı xətası! API açarın aktiv olmaya bilər.", 'aura-message');
-                console.error(error);
-            }
+        // Şifrəni yoxlayırıq (kiçik-böyük hərf fərqi olmasın deyə .toLowerCase() istifadə etdim)
+        if (password && password.toLowerCase() === "qreni") {
+            document.getElementById("message").innerText = "Leyla məni bacının nömrəsinnən blokdan çıxarta bilərsən?";
+            document.getElementById("message").style.display = "block";
+        } else if (password !== null) {
+            alert("Yanlış şifrə! Yenidən yoxla.");
         }
+    }
+</script>
 
-        function addMsg(text, type) {
-            const div = document.createElement('div');
-            div.className = `message ${type}`;
-            div.innerText = text;
-            const win = document.getElementById('chat-window');
-            win.appendChild(div);
-            win.scrollTop = win.scrollHeight;
-        }
-
-        window.onload = () => addMsg("Salam Leyla! Mən AURA. Sənə necə kömək edə bilərəm?", 'aura-message');
-    </script>
 </body>
 </html>
