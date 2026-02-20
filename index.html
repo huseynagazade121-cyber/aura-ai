@@ -3,62 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Özəl Mesaj</title>
+    <title>Anonim Sinif Qutusu</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f2f5;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            background-color: #f0f2f5;
         }
         .container {
-            text-align: center;
             background: white;
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #007bff;
+        h2 { color: #1c1e21; margin-bottom: 10px; }
+        p { color: #606770; font-size: 0.9rem; }
+        textarea {
+            width: 100%;
+            height: 120px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 1rem;
+            resize: none;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+        textarea:focus { border-color: #1877f2; }
+        .send-btn {
+            background-color: #1877f2;
             color: white;
             border: none;
-            border-radius: 5px;
-        }
-        #message {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #d9534f;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: bold;
-            display: none;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
         }
+        .send-btn:hover { background-color: #166fe5; }
+        .status { margin-top: 15px; font-size: 0.8rem; color: green; display: none; }
+        .footer-note { font-size: 0.6rem; color: #ccc; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Xoş gəldin!</h2>
-    <button onclick="checkPassword()">Sayta daxil ol</button>
-    <div id="message"></div>
+    <h2>📥 Anonim Qutu</h2>
+    <p>Sinif yoldaşların üçün ürəyində qalanları və ya suallarını yaz. Tamamilə anonimdir!</p>
+    
+    <textarea id="message" placeholder="Bura nəsə yaz..."></textarea>
+    
+    <button class="send-btn" onclick="sendMessage()">Göndər</button>
+    
+    <div id="status" class="status">Mesajın uğurla (anonim) göndərildi! ✅</div>
+
+    <div class="footer-note">
+        Modul: User Feedback Processing System v2.1.0
+    </div>
 </div>
 
 <script>
-    function checkPassword() {
-        // İstifadəçidən şifrəni soruşuruq
-        let password = prompt("Şifrəni girin\nİpucu: Leylanın ən sevdiyi oyun.");
-
-        // Şifrəni yoxlayırıq (kiçik-böyük hərf fərqi olmasın deyə .toLowerCase() istifadə etdim)
-        if (password && password.toLowerCase() === "qreni") {
-            document.getElementById("message").innerText = "Leyla məni bacının nömrəsinnən blokdan çıxarta bilərsən?";
-            document.getElementById("message").style.display = "block";
-        } else if (password !== null) {
-            alert("Yanlış şifrə! Yenidən yoxla.");
+    function sendMessage() {
+        const msg = document.getElementById('message').value;
+        const status = document.getElementById('status');
+        
+        if(msg.trim() === "") {
+            alert("Boş mesaj göndərmək olmaz!");
+            return;
         }
+
+        // Real bazaya qoşmaq üçün backend lazımdır, 
+        // amma biz mırta simulyasiya edirik:
+        console.log("Mesaj qəbul edildi: " + msg);
+        
+        status.style.display = 'block';
+        document.getElementById('message').value = "";
+        
+        setTimeout(() => {
+            status.style.display = 'none';
+        }, 3000);
     }
 </script>
 
