@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
-            background-color: #f0f2f5;
+            background-color: #0f172a;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -15,20 +15,21 @@
             margin: 0;
         }
         .container {
-            background: white;
+            background: #1e293b;
             padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             width: 90%;
             max-width: 400px;
             text-align: center;
+            color: white;
         }
-        h2 { color: #1c1e21; margin-bottom: 10px; }
-        p { color: #606770; font-size: 0.9rem; }
+        h2 { color: #38bdf8; margin-bottom: 10px; }
+        p { color: #94a3b8; font-size: 0.9rem; }
         textarea {
             width: 100%;
             height: 120px;
-            border: 2px solid #ddd;
+            border: 2px solid #334155;
             border-radius: 10px;
             padding: 10px;
             font-size: 1rem;
@@ -36,11 +37,13 @@
             box-sizing: border-box;
             outline: none;
             transition: 0.3s;
-        }
-        textarea:focus { border-color: #1877f2; }
-        .send-btn {
-            background-color: #1877f2;
+            background: #0f172a;
             color: white;
+        }
+        textarea:focus { border-color: #38bdf8; }
+        .send-btn {
+            background-color: #38bdf8;
+            color: #0f172a;
             border: none;
             padding: 12px 25px;
             border-radius: 8px;
@@ -49,51 +52,28 @@
             cursor: pointer;
             margin-top: 15px;
             width: 100%;
+            transition: 0.3s;
         }
-        .send-btn:hover { background-color: #166fe5; }
-        .status { margin-top: 15px; font-size: 0.8rem; color: green; display: none; }
-        .footer-note { font-size: 0.6rem; color: #ccc; margin-top: 20px; }
+        .send-btn:hover { background-color: #0ea5e9; transform: scale(1.02); }
+        .footer-note { font-size: 0.6rem; color: #475569; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>📥 Anonim Qutu</h2>
-    <p>Sinif yoldaşların üçün ürəyində qalanları və ya suallarını yaz. Tamamilə anonimdir!</p>
+    <p>Sinif yoldaşların üçün ürəyində qalanları yaz. Tamamilə anonimdir!</p>
     
-    <textarea id="message" placeholder="Bura nəsə yaz..."></textarea>
+    <form action="https://formspree.io/f/xvgzzyaw" method="POST">
+        <textarea name="Mesaj" placeholder="Bura nəsə yaz..." required></textarea>
+        <input type="hidden" name="_replyto" value="huseynagazade121@gmail.com">
+        <button type="submit" class="send-btn">Göndər</button>
+    </form>
     
-    <button class="send-btn" onclick="sendMessage()">Göndər</button>
-    
-    <div id="status" class="status">Mesajın uğurla (anonim) göndərildi! ✅</div>
-
     <div class="footer-note">
-        Modul: User Feedback Processing System v2.1.0
+        Modul: Secure Encrypted Messaging v3.0
     </div>
 </div>
-
-<script>
-    function sendMessage() {
-        const msg = document.getElementById('message').value;
-        const status = document.getElementById('status');
-        
-        if(msg.trim() === "") {
-            alert("Boş mesaj göndərmək olmaz!");
-            return;
-        }
-
-        // Real bazaya qoşmaq üçün backend lazımdır, 
-        // amma biz mırta simulyasiya edirik:
-        console.log("Mesaj qəbul edildi: " + msg);
-        
-        status.style.display = 'block';
-        document.getElementById('message').value = "";
-        
-        setTimeout(() => {
-            status.style.display = 'none';
-        }, 3000);
-    }
-</script>
 
 </body>
 </html>
